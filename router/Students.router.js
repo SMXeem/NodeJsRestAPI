@@ -1,16 +1,12 @@
 const express =require('express');
 
 const router= express.Router();
-const Post= require('./models/post');
-
-// router.get('/', (req,res)=>{
-//     res.send('We are on posts');
-// });
+const Student= require('../models/student');
 
 //get all post
 router.get('/', async (req,res)=>{
     try{
-        const posts= await Post.find();
+        const posts= await Student.find();
         res.json(posts);
 
     }catch(err){
@@ -18,9 +14,9 @@ router.get('/', async (req,res)=>{
     }
 });
 //get by id
-router.get('/:postId', async (req,res)=>{
+router.get('/:studentId', async (req,res)=>{
     try{
-        const posts= await Post.findById(req.params.postId);
+        const posts= await Student.findById(req.params.studentId);
         res.json(posts);
 
     }catch(err){
@@ -29,9 +25,9 @@ router.get('/:postId', async (req,res)=>{
 });
 
 //delete post
-router.delete('/:postId', async (req,res)=>{
+router.delete('/:studentId', async (req,res)=>{
     try{
-        const posts= await Post.remove({_id: req.params.postId});
+        const posts= await Student.remove({_id: req.params.studentId});
         res.json(posts);
 
     }catch(err){
@@ -39,9 +35,9 @@ router.delete('/:postId', async (req,res)=>{
     }
 });
 //update post
-router.patch('/:postId', async (req,res)=>{
+router.patch('/:studentId', async (req,res)=>{
     try{
-        const posts= await Post.updateOne({_id: req.params.postId},{$set: {title: req.body.title}});
+        const posts= await Student.updateOne({_id: req.params.studentId},{$set: {title: req.body.name}});
         res.json(posts);
 
     }catch(err){
@@ -55,9 +51,9 @@ router.get('/new', (req,res)=>{
 
 //Submit a post
 router.post('/', async (req,res)=>{
-    const post =new Post({
-        title: req.body.title,
-        des: req.body.des
+    const student =new Student({
+        name: req.body.name,
+        roll: req.body.roll
     });
     // post.save()
     // .then(data => {
@@ -67,7 +63,7 @@ router.post('/', async (req,res)=>{
     //     res.json({message: err});
     // })
     try{
-        const savedPost= await post.save();
+        const savedPost= await student.save();
         res.json(savedPost);
     }catch(err){
         res.json({message:err});
